@@ -1,14 +1,21 @@
-from code.my_classes import Category
-from code.my_classes import Product
+from src.my_classes import Category
+from src.my_classes import Product
+import pytest
 
 banana_10 = Product('banana', 'fruits', 100.99, 10)
 apple_15 = Product('apple', 'fruits', 51.99, 15)
 apple_10 = Product('apple', 'fruits', 51.99, 150)
 
-bread_0 = Product('bread', 'fresh bread hand made today', 25, 0)
-
 fruits = Category('fruits', 'food', [banana_10, apple_15, apple_10])
 apples = Category('apples', 'fruits', [apple_15, apple_10])
+
+
+def test_classes():
+
+    bread_0 = Product('bread', 'fresh bread hand made today', 25, 0)
+    assert bread_0.name == 'bread'
+
+    assert Product('bread', 'fresh bread hand made today', 25, 2).qty == 2
 
 
 def test_product():

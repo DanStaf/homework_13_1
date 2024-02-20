@@ -22,6 +22,7 @@ class Category:
     def __repr__(self):
         return f'*Category:{self.name}*\n*Contains:{self.goods}*'
 
+
 class Product:
 
     def __init__(self, name="", description="", price=0.0, qty=0):
