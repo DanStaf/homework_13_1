@@ -20,7 +20,7 @@ class Category:
         Category.number_of_products_types = len(Category.unique_product_names)
 
     def __repr__(self):
-        return f'*Category:{self.name}*\n*Contains:{self.goods}*'
+        return f'*Category:{self.name}*\n*Contains:{self.goods}*\n'
 
 
 class Product:
