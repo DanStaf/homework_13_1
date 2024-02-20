@@ -3,6 +3,11 @@ import json
 
 
 def get_classes_from_file():
+    """
+    функция читает файл products.json и создаёт объекты классов.
+
+    :return: list of classes Category
+    """
 
     with open("../products.json", 'r', encoding='utf-8') as f:
         reading_result = json.loads(f.read())
