@@ -46,9 +46,26 @@ class Product:
         return self.name
 
     @classmethod
-    def new_product(cls, name, description, price, quantity):
+    def new_product(cls, name, description, price, quantity, product_list=None):
 
+        # если получили список, ищем совпадающий продукт
+        if product_list:
+            # ищем совпадающий продукт по имени
+            for product in product_list:
+                if product.name == name:
+                    # если нашли, складываем количество
+                    # если нашли, выбираем наибольшую цену
+                    product.qty += quantity
+                    if product.price < price:
+                        product.price = price
+
+                    # возвращаем обновлённый продукт
+                    return product
+
+            # если не нашли совпадающий продукт:
+        # если не получили список и не искали:
+
+        # возвращаем новый продукт
         return cls(name, description, price, quantity)
-
 
 ######################

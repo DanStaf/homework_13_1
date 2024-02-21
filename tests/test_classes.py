@@ -64,3 +64,16 @@ def test_new_product():
     assert p1.name == p2.name
     assert p1.qty == p2.qty
 
+
+def test_new_product_with_list():
+
+    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    p2 = Product('orange', 'fruits', 20.99, 3)
+
+    p_list = [p1, p2]
+    p3 = Product.new_product('apple', 'fruits', 100.0, 3, p_list)
+
+    assert p3.name == 'apple'
+    assert p3.price == 100.0
+    assert p3.qty == 6
+
