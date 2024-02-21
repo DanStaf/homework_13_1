@@ -48,3 +48,10 @@ def test_number_of_products_types():
     assert apples.number_of_products_types == 2
     assert Category.number_of_products_types == 2
 
+def test_list_of_goods():
+    assert fruits.list_of_goods == ['banana, 100.99 руб. Остаток: 10 шт.',
+                                    'apple, 51.99 руб. Остаток: 15 шт.',
+                                    'apple, 51.99 руб. Остаток: 150 шт.']
+
+    assert apples.list_of_goods == ['apple, 51.99 руб. Остаток: 15 шт.',
+                                    'apple, 51.99 руб. Остаток: 150 шт.']

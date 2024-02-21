@@ -25,6 +25,10 @@ class Category:
     def __repr__(self):
         return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
 
+    @property
+    def list_of_goods(self):
+        return [f"{each.name}, {each.price} руб. Остаток: {each.qty} шт." for each in self.__goods]
+
 
 class Product:
 
