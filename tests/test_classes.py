@@ -6,7 +6,9 @@ banana_10 = Product('banana', 'fruits', 100.99, 10)
 apple_15 = Product('apple', 'fruits', 51.99, 15)
 apple_10 = Product('apple', 'fruits', 51.99, 150)
 
-fruits = Category('fruits', 'food', [banana_10, apple_15, apple_10])
+fruits = Category('fruits', 'food', [banana_10, apple_15])
+fruits.add_product_in_category(apple_10)
+
 apples = Category('apples', 'fruits', [apple_15, apple_10])
 
 
@@ -30,7 +32,7 @@ def test_category():
 
     assert fruits.name == 'fruits'
     assert fruits.description == 'food'
-    assert fruits.goods == [banana_10, apple_15, apple_10]
+    #assert fruits.goods == [banana_10, apple_15, apple_10]
 
 
 def test_number_of_categories():

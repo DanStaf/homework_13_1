@@ -8,19 +8,22 @@ class Category:
 
         self.name = name
         self.description = description
-        self.goods = goods
+        self.__goods = goods
 
         Category.number_of_categories += 1
         self.add_products()
 
     def add_products(self):
-        for good in self.goods:
+        for good in self.__goods:
             Category.unique_product_names.add(good.get_name())
 
         Category.number_of_products_types = len(Category.unique_product_names)
 
+    def add_product_in_category(self, product):
+        self.__goods.append(product)
+
     def __repr__(self):
-        return f'*Category:{self.name}*\n*Contains:{self.goods}*\n'
+        return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
 
 
 class Product:
