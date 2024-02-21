@@ -36,7 +36,7 @@ class Product:
 
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.qty = qty
 
     def __repr__(self):
@@ -67,5 +67,20 @@ class Product:
 
         # возвращаем новый продукт
         return cls(name, description, price, quantity)
+
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, price):
+        if price <= 0:
+            print("Некорректный ввод. Введённая цена должа быть больше 0")
+        else:
+            self.__price = price
+
+    @price.deleter
+    def price(self):
+        self.__price = None
 
 ######################

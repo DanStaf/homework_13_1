@@ -77,3 +77,16 @@ def test_new_product_with_list():
     assert p3.price == 100.0
     assert p3.qty == 6
 
+
+def test_price_get_set_del():
+
+    del banana_10.price
+    assert banana_10.price is None
+
+    banana_10.price = 102
+    assert banana_10.price == 102
+
+    banana_10.price = -1111
+    assert banana_10.price == 102
+
+
