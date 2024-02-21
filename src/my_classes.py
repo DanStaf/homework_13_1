@@ -25,9 +25,18 @@ class Category:
     def __repr__(self):
         return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
 
+    def __str__(self):
+        return f'{self.name}, количество продуктов: {len(self)} шт.'
+
+    def __len__(self):
+        qty = 0
+        for each in self.__goods:
+            qty += each.qty
+        return qty
+
     @property
     def list_of_goods(self):
-        return [f"{each.name}, {each.price} руб. Остаток: {each.qty} шт." for each in self.__goods]
+        return [str(each) for each in self.__goods]
 
 
 class Product:
@@ -41,6 +50,14 @@ class Product:
 
     def __repr__(self):
         return f'/Product:{self.name},{self.qty}pcs/'
+
+    def __str__(self):
+        return f'{self.name}, {self.price} руб. Остаток: {self.qty} шт.'
+
+    def __add__(self, other):
+
+        return self.price * self.qty + other.price * other.qty
+
 
     def get_name(self):
         return self.name

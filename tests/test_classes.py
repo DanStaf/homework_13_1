@@ -6,12 +6,15 @@ import builtins
 
 banana_10 = Product('banana', 'fruits', 100.99, 10)
 apple_15 = Product('apple', 'fruits', 51.99, 15)
-apple_10 = Product('apple', 'fruits', 51.99, 150)
+apple_150 = Product('apple', 'fruits', 51.99, 150)
 
 fruits = Category('fruits', 'food', [banana_10, apple_15])
-fruits.add_product_in_category(apple_10)
+fruits.add_product_in_category(apple_150)
 
-apples = Category('apples', 'fruits', [apple_15, apple_10])
+apples = Category('apples', 'fruits', [apple_15, apple_150])
+
+p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+p2 = Product('orange', 'fruits', 20.99, 3)
 
 
 def test_classes():
@@ -34,7 +37,7 @@ def test_category():
 
     assert fruits.name == 'fruits'
     assert fruits.description == 'food'
-    #assert fruits.goods == [banana_10, apple_15, apple_10]
+    #assert fruits.goods == [banana_10, apple_15, apple_150]
 
 
 def test_number_of_categories():
@@ -61,16 +64,13 @@ def test_list_of_goods():
 
 def test_new_product():
 
-    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
-    p2 = Product('apple', 'fruits', 14.99, 3)
-    assert p1.name == p2.name
-    assert p1.qty == p2.qty
+    a1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    a2 = Product('apple', 'fruits', 14.99, 3)
+    assert a1.name == a2.name
+    assert a1.qty == a2.qty
 
 
 def test_new_product_with_list():
-
-    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
-    p2 = Product('orange', 'fruits', 20.99, 3)
 
     p_list = [p1, p2]
     p3 = Product.new_product('apple', 'fruits', 100.0, 3, p_list)
@@ -104,3 +104,18 @@ def test_price_with_input():
         banana_10.price = 50
         assert banana_10.price == 50
 
+
+def test_str():
+
+    assert str(apple_15) == 'apple, 51.99 руб. Остаток: 15 шт.'
+    assert str(apples) == 'apples, количество продуктов: 165 шт.'
+
+
+def test_len_category():
+
+    assert len(apples) == 165
+
+
+def test_add_for_products():
+
+    assert p1 + p2 == 107.94
