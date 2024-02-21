@@ -74,10 +74,22 @@ class Product:
 
     @price.setter
     def price(self, price):
+
         if price <= 0:
             print("Некорректный ввод. Введённая цена должа быть больше 0")
         else:
-            self.__price = price
+            if self.__price:
+                if price < self.__price:
+                    user_confirmation = input("Подтвердите снижение цены"
+                                              " y (значит yes) или нажмите n"
+                                              " (значит no) для отмены действия.")
+                    if user_confirmation == 'y':
+                        self.__price = price
+                    #else: pass
+                else:
+                    self.__price = price
+            else:
+                self.__price = price
 
     @price.deleter
     def price(self):

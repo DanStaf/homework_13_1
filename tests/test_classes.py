@@ -1,6 +1,8 @@
 from src.my_classes import Category
 from src.my_classes import Product
 import pytest
+import mock
+import builtins
 
 banana_10 = Product('banana', 'fruits', 100.99, 10)
 apple_15 = Product('apple', 'fruits', 51.99, 15)
@@ -80,6 +82,8 @@ def test_new_product_with_list():
 
 def test_price_get_set_del():
 
+    # banana_10.price == 100.99
+
     del banana_10.price
     assert banana_10.price is None
 
@@ -89,4 +93,14 @@ def test_price_get_set_del():
     banana_10.price = -1111
     assert banana_10.price == 102
 
+
+def test_price_with_input():
+
+    with mock.patch.object(builtins, 'input', lambda _: 'n'):
+        banana_10.price = 50
+        assert banana_10.price != 50
+
+    with mock.patch.object(builtins, 'input', lambda _: 'y'):
+        banana_10.price = 50
+        assert banana_10.price == 50
 
