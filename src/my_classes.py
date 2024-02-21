@@ -45,4 +45,10 @@ class Product:
     def get_name(self):
         return self.name
 
+    @classmethod
+    def new_product(cls, name, description, price, quantity):
+
+        return cls(name, description, price, quantity)
+
+
 ######################

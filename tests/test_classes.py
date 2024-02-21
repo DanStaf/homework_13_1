@@ -55,3 +55,12 @@ def test_list_of_goods():
 
     assert apples.list_of_goods == ['apple, 51.99 руб. Остаток: 15 шт.',
                                     'apple, 51.99 руб. Остаток: 150 шт.']
+
+
+def test_new_product():
+
+    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    p2 = Product('apple', 'fruits', 14.99, 3)
+    assert p1.name == p2.name
+    assert p1.qty == p2.qty
+
