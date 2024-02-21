@@ -58,3 +58,13 @@ Dunder методы:
 - `__str__` в классе `Category` и `Product` 
 - `__len__` в классе `Category`
 - `__add__` в классе `Product`
+
+Класс `CategoryIter` имеет свойства:
+
+- товары,
+
+Dunder методы:
+
+- `__len__`
+- `__iter__` и `__next__`
+

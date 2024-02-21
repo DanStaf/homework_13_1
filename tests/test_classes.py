@@ -1,4 +1,5 @@
 from src.my_classes import Category
+from src.my_classes import CategoryIter
 from src.my_classes import Product
 import pytest
 import mock
@@ -12,9 +13,6 @@ fruits = Category('fruits', 'food', [banana_10, apple_15])
 fruits.add_product_in_category(apple_150)
 
 apples = Category('apples', 'fruits', [apple_15, apple_150])
-
-p1 = Product.new_product('apple', 'fruits', 14.99, 3)
-p2 = Product('orange', 'fruits', 20.99, 3)
 
 
 def test_classes():
@@ -71,7 +69,8 @@ def test_new_product():
 
 
 def test_new_product_with_list():
-
+    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    p2 = Product('orange', 'fruits', 20.99, 3)
     p_list = [p1, p2]
     p3 = Product.new_product('apple', 'fruits', 100.0, 3, p_list)
 
@@ -117,5 +116,17 @@ def test_len_category():
 
 
 def test_add_for_products():
-
+    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    p2 = Product('orange', 'fruits', 20.99, 3)
     assert p1 + p2 == 107.94
+
+
+def test_iter():
+
+    my_iter = CategoryIter(apples)
+
+    assert len(my_iter) == 2
+
+    assert [str(each_good) for each_good in my_iter] == ['apple, 51.99 руб. Остаток: 15 шт.',
+                                                         'apple, 51.99 руб. Остаток: 150 шт.']
+

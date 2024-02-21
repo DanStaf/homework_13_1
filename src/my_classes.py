@@ -55,7 +55,6 @@ class Product:
         return f'{self.name}, {self.price} руб. Остаток: {self.qty} шт.'
 
     def __add__(self, other):
-
         return self.price * self.qty + other.price * other.qty
 
 
@@ -111,5 +110,26 @@ class Product:
     @price.deleter
     def price(self):
         self.__price = None
+
+
+class CategoryIter:
+
+    def __init__(self, category):
+        self.goods = category.list_of_goods
+
+    def __len__(self):
+        return len(self.goods)
+
+    def __iter__(self):
+        self.current_value = -1
+        return self
+
+    def __next__(self):
+        if self.current_value + 1 < len(self):
+            self.current_value += 1
+            return self.goods[self.current_value]
+        else:
+            raise StopIteration
+
 
 ######################
