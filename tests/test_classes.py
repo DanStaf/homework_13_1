@@ -61,18 +61,39 @@ def test_list_of_goods():
 
 
 def test_new_product():
-
-    a1 = Product.new_product('apple', 'fruits', 14.99, 3)
-    a2 = Product('apple', 'fruits', 14.99, 3)
+    samsung_data = {
+        "name": "Samsung Galaxy C23 Ultra",
+        "description": "256GB, Серый цвет, 200MP камера",
+        "price": 180000.0,
+        "quantity": 5
+    }
+    a1 = Product.new_product(samsung_data)
+    a2 = Product(samsung_data['name'],
+                 samsung_data['description'],
+                 samsung_data['price'],
+                 samsung_data['quantity'])
     assert a1.name == a2.name
     assert a1.qty == a2.qty
 
 
 def test_new_product_with_list():
-    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    apple_data_1 = {
+        "name": "apple",
+        "description": "fruits",
+        "price": 14.99,
+        "quantity": 3
+    }
+    p1 = Product.new_product(apple_data_1)
     p2 = Product('orange', 'fruits', 20.99, 3)
     p_list = [p1, p2]
-    p3 = Product.new_product('apple', 'fruits', 100.0, 3, p_list)
+
+    apple_data_2 = {
+        "name": "apple",
+        "description": "fruits",
+        "price": 100.00,
+        "quantity": 3
+    }
+    p3 = Product.new_product(apple_data_2, p_list)
 
     assert p3.name == 'apple'
     assert p3.price == 100.0
@@ -116,7 +137,13 @@ def test_len_category():
 
 
 def test_add_for_products():
-    p1 = Product.new_product('apple', 'fruits', 14.99, 3)
+    apple_data_1 = {
+        "name": "apple",
+        "description": "fruits",
+        "price": 14.99,
+        "quantity": 3
+    }
+    p1 = Product.new_product(apple_data_1)
     p2 = Product('orange', 'fruits', 20.99, 3)
     assert p1 + p2 == 107.94
 
