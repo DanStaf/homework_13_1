@@ -1,53 +1,6 @@
-class Category:
-
-    number_of_categories = 0
-    unique_product_names = set()
-    number_of_products_types = 0
-
-    def __init__(self, name="", description="", goods=list()):
-        """
-
-        :param name: имя категории
-        :param description: описание категории
-        :param goods: список объектов класса Product
-        """
-
-        self.name = name
-        self.description = description
-        self.__goods = goods
-
-        Category.number_of_categories += 1
-        self.add_products()
-
-    def add_products(self):
-        for good in self.__goods:
-            Category.unique_product_names.add(good.get_name())
-
-        Category.number_of_products_types = len(Category.unique_product_names)
-
-    def add_product_in_category(self, product):
-        self.__goods.append(product)
-
-    def __repr__(self):
-        return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
-
-    def __str__(self):
-        return f'{self.name}, количество продуктов: {len(self)} шт.'
-
-    def __len__(self):
-        qty = 0
-        for each in self.__goods:
-            qty += each.qty
-        return qty
-
-    @property
-    def list_of_goods(self):
-        return [str(each) for each in self.__goods]
-
-
 class Product:
 
-    def __init__(self, name="", description="", price=0.0, qty=0):
+    def __init__(self, name: str, description: str, price: float, qty: int):
         """
 
         :param name: имя продукта
@@ -74,13 +27,13 @@ class Product:
         return self.name
 
     @classmethod
-    def new_product(cls, product_data, product_list=None):
+    def new_product(cls, product_list=None, **product_data):
 
         """product_data = {
             "name": "apple",
             "description": "fruits",
             "price": 100.00,
-            "quantity": 3
+            "qty": 3
         }"""
 
         # если получили список, ищем совпадающий продукт
@@ -90,7 +43,7 @@ class Product:
                 if product.name == product_data['name']:
                     # если нашли, складываем количество
                     # если нашли, выбираем наибольшую цену
-                    product.qty += product_data['quantity']
+                    product.qty += product_data['qty']
                     if product.price < product_data['price']:
                         product.price = product_data['price']
 
@@ -101,10 +54,7 @@ class Product:
         # если не получили список и не искали:
 
         # возвращаем новый продукт
-        return cls(product_data['name'],
-                   product_data['description'],
-                   product_data['price'],
-                   product_data['quantity'])
+        return cls(**product_data)
 
     @property
     def price(self):
@@ -134,6 +84,53 @@ class Product:
         self.__price = None
 
 
+class Category:
+
+    number_of_categories = 0
+    unique_product_names = set()
+    number_of_products_types = 0
+
+    def __init__(self, name: str, description: str, goods: list):
+        """
+
+        :param name: имя категории
+        :param description: описание категории
+        :param goods: список объектов класса Product
+        """
+
+        self.name = name
+        self.description = description
+        self.__goods = goods
+
+        Category.number_of_categories += 1
+        self.add_products()
+
+    def add_products(self):
+        for good in self.__goods:
+            Category.unique_product_names.add(good.get_name())
+
+        Category.number_of_products_types = len(Category.unique_product_names)
+
+    def add_product_in_category(self, product: Product):
+        self.__goods.append(product)
+
+    def __repr__(self):
+        return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
+
+    def __str__(self):
+        return f'{self.name}, количество продуктов: {len(self)} шт.'
+
+    def __len__(self):
+        qty = 0
+        for each in self.__goods:
+            qty += each.qty
+        return qty
+
+    @property
+    def list_of_goods(self):
+        return [str(each) for each in self.__goods]
+
+
 class CategoryIter:
 
     def __init__(self, category):
@@ -160,4 +157,31 @@ class CategoryIter:
             raise StopIteration
 
 
+class Smartphone(Product):
+    """class Smartphone is child of class Product"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 freq: float, model: str, ram: int, color: str):
+
+        super().__init__(name, description, price, qty)
+        self.freq = freq
+        self.model = model
+        self.ram = ram
+        self.color = color
+
+
+class GreenGrass(Product):
+    """class GreenGrass is child of class Category"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 country: str, germ_period: int, color: str):
+
+        super().__init__(name, description, price, qty)
+        self.country = country
+        self.germ_period = germ_period
+        self.color = color
+
+
+
 ######################
+

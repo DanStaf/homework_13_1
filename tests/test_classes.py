@@ -1,6 +1,9 @@
 from src.my_classes import Category
 from src.my_classes import CategoryIter
 from src.my_classes import Product
+from src.my_classes import Smartphone
+from src.my_classes import GreenGrass
+
 import pytest
 import mock
 import builtins
@@ -65,13 +68,13 @@ def test_new_product():
         "name": "Samsung Galaxy C23 Ultra",
         "description": "256GB, Серый цвет, 200MP камера",
         "price": 180000.0,
-        "quantity": 5
+        "qty": 5
     }
-    a1 = Product.new_product(samsung_data)
+    a1 = Product.new_product(**samsung_data)
     a2 = Product(samsung_data['name'],
                  samsung_data['description'],
                  samsung_data['price'],
-                 samsung_data['quantity'])
+                 samsung_data['qty'])
     assert a1.name == a2.name
     assert a1.qty == a2.qty
 
@@ -81,9 +84,9 @@ def test_new_product_with_list():
         "name": "apple",
         "description": "fruits",
         "price": 14.99,
-        "quantity": 3
+        "qty": 3
     }
-    p1 = Product.new_product(apple_data_1)
+    p1 = Product.new_product(**apple_data_1)
     p2 = Product('orange', 'fruits', 20.99, 3)
     p_list = [p1, p2]
 
@@ -91,9 +94,9 @@ def test_new_product_with_list():
         "name": "apple",
         "description": "fruits",
         "price": 100.00,
-        "quantity": 3
+        "qty": 3
     }
-    p3 = Product.new_product(apple_data_2, p_list)
+    p3 = Product.new_product(p_list, **apple_data_2)
 
     assert p3.name == 'apple'
     assert p3.price == 100.0
@@ -141,9 +144,9 @@ def test_add_for_products():
         "name": "apple",
         "description": "fruits",
         "price": 14.99,
-        "quantity": 3
+        "qty": 3
     }
-    p1 = Product.new_product(apple_data_1)
+    p1 = Product.new_product(**apple_data_1)
     p2 = Product('orange', 'fruits', 20.99, 3)
     assert p1 + p2 == 107.94
 
@@ -156,4 +159,57 @@ def test_iter():
 
     assert [str(each_good) for each_good in my_iter] == ['apple, 51.99 руб. Остаток: 15 шт.',
                                                          'apple, 51.99 руб. Остаток: 150 шт.']
+
+#   task 14.2
+
+
+def test_child_classes():
+
+    sf = Smartphone('Samsung',
+                    '256GB, Серый цвет, 200MP камера',
+                    180000.0,
+                    5,
+                    3.36,
+                    'Galaxy C23 Ultra',
+                    256,
+                    'Серый')
+
+    gg = GreenGrass('Газон гном',
+                    'Наш газон самый лучший газон',
+                    200,
+                    50,
+                    'Holland',
+                    30,
+                    'Зелёный')
+
+    assert isinstance(sf, Product)
+    assert isinstance(gg, Product)
+
+    assert sf.ram == 256
+    assert gg.color == 'Зелёный'
+
+    assert str(sf) == 'Samsung, 180000.0 руб. Остаток: 5 шт.'
+    assert sf + gg == 180000.0 * 5 + 200 * 50
+
+    product_data = {
+        "name": "Samsung",
+        "description": "phone",
+        "price": 100000.00,
+        "qty": 3,
+        "freq": 3.36,
+        "model": 'Galaxy C23 Ultra',
+        "ram": 256,
+        "color": 'Серый'
+    }
+
+    added_product = Smartphone.new_product(**product_data)
+
+    assert added_product.qty == 3
+    assert added_product.ram == 256
+
+
+
+
+
+
 
