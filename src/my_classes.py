@@ -21,6 +21,9 @@ class Product:
         return f'{self.name}, {self.price} руб. Остаток: {self.qty} шт.'
 
     def __add__(self, other):
+        if type(self) is not type(other):
+            raise TypeError('Можно складывать товары только из одинаковых классов продуктов')
+
         return self.price * self.qty + other.price * other.qty
 
     def get_name(self):

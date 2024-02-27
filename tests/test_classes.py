@@ -182,14 +182,28 @@ def test_child_classes():
                     30,
                     'Зелёный')
 
+    gg2 = GreenGrass('Газон спорт',
+                     'Наш газон самый лучший газон',
+                     220,
+                     50,
+                     'Russia',
+                     10,
+                     'Зелёный')
+
     assert isinstance(sf, Product)
     assert isinstance(gg, Product)
 
     assert sf.ram == 256
     assert gg.color == 'Зелёный'
 
+    # test methods
+
     assert str(sf) == 'Samsung, 180000.0 руб. Остаток: 5 шт.'
-    assert sf + gg == 180000.0 * 5 + 200 * 50
+
+    assert gg + gg2 == 220 * 50 + 200 * 50
+
+    with pytest.raises(TypeError):
+        assert gg + sf is None
 
     product_data = {
         "name": "Samsung",
