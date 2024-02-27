@@ -106,15 +106,18 @@ class Category:
         self.__goods = goods
 
         Category.number_of_categories += 1
-        self.add_products()
+        self.record_product_name()
 
-    def add_products(self):
+    def record_product_name(self):
         for good in self.__goods:
             Category.unique_product_names.add(good.get_name())
 
         Category.number_of_products_types = len(Category.unique_product_names)
 
-    def add_product_in_category(self, product: Product):
+    def add_product_in_category(self, product):
+        if not isinstance(product, Product):
+            raise TypeError('Добавить в категорию можно только продукт или его наследников')
+
         self.__goods.append(product)
 
     def __repr__(self):
