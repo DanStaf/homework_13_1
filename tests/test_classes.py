@@ -44,6 +44,8 @@ def test_product():
 
     assert str(banana_10) == 'banana, 50 руб. Остаток: 10 шт.'
 
+    assert repr(banana_10) == "Product('banana', 'fruits', 50, 10)"
+
 
 def test_product_methods__new_add():
 
@@ -207,10 +209,5 @@ def test_child_classes():
 
     assert added_product.qty == 3
     assert added_product.ram == 256
-
-
-
-
-
 
 
