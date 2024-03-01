@@ -1,4 +1,35 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class MixinRepr:
+
+    def __init__(self):
+        print(f"Создан объект: {repr(self)}")
+
+    def __repr__(self):
+        # Product children has incorrect order of values (> 4 attrs)
+        # Product has 4 attrs
+        # Category has 3 attrs
+        # CategoryIter has 1 attr
+
+        values_list = list(self.__dict__.values())
+        values_list_correct = values_list[-4:] + values_list[:-4]
+
+        attrs_text = ''
+        for value in values_list_correct:
+            attrs_text += f"{repr(value)}, "
+
+        return f"{self.__class__.__name__}({attrs_text[:-2]})"
+
+
+class AbcProduct(ABC):
+
+    @abstractmethod
+    def __init__(self):
+        super().__init__()
+
+
+class Product(AbcProduct, MixinRepr):
 
     def __init__(self, name: str, description: str, price: float, qty: int):
         """
@@ -14,8 +45,11 @@ class Product:
         self.__price = price
         self.qty = qty
 
+        super().__init__()
+
     def __repr__(self):
-        return f'/Product:{self.name},{self.qty}pcs/'
+        return super().__repr__()
+        #return f'/Product:{self.name},{self.qty}pcs/'
 
     def __str__(self):
         return f'{self.name}, {self.price} руб. Остаток: {self.qty} шт.'
@@ -87,7 +121,49 @@ class Product:
         self.__price = None
 
 
-class Category:
+class Smartphone(Product):
+    """class Smartphone is child of class Product"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 freq: float, model: str, ram: int, color: str):
+
+        self.freq = freq
+        self.model = model
+        self.ram = ram
+        self.color = color
+        super().__init__(name, description, price, qty)
+
+
+class GreenGrass(Product):
+    """class GreenGrass is child of class Category"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 country: str, germ_period: int, color: str):
+
+        self.country = country
+        self.germ_period = germ_period
+        self.color = color
+        super().__init__(name, description, price, qty)
+
+###############################
+
+
+class AbcCategoryOrder(ABC):
+
+    @abstractmethod
+    def __init__(self):
+        super().__init__()
+
+    @abstractmethod
+    def __repr__(self):
+        return super().__repr__()
+
+    @abstractmethod
+    def __str__(self):
+        return super().__str__()
+
+
+class Category(AbcCategoryOrder, MixinRepr):
 
     number_of_categories = 0
     unique_product_names = set()
@@ -107,6 +183,7 @@ class Category:
 
         Category.number_of_categories += 1
         self.record_product_name()
+        super().__init__()
 
     def record_product_name(self):
         for good in self.__goods:
@@ -121,7 +198,8 @@ class Category:
         self.__goods.append(product)
 
     def __repr__(self):
-        return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
+        return super().__repr__()
+        #return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'
 
     def __str__(self):
         return f'{self.name}, количество продуктов: {len(self)} шт.'
@@ -137,7 +215,7 @@ class Category:
         return [str(each) for each in self.__goods]
 
 
-class CategoryIter:
+class CategoryIter(MixinRepr):
 
     def __init__(self, category):
         """
@@ -147,6 +225,10 @@ class CategoryIter:
         :attr goods: список товаров в строковом виде (можно изменить если будет нужно)
         """
         self.goods = category.list_of_goods
+        super().__init__()
+
+    def __repr__(self):
+        return super().__repr__()
 
     def __len__(self):
         return len(self.goods)
@@ -163,30 +245,24 @@ class CategoryIter:
             raise StopIteration
 
 
-class Smartphone(Product):
-    """class Smartphone is child of class Product"""
+class Order(AbcCategoryOrder, MixinRepr):
+    """
+    ordered Product
+    ordered qty
+    ordered total price
+    """
 
-    def __init__(self, name: str, description: str, price: float, qty: int,
-                 freq: float, model: str, ram: int, color: str):
+    def __init__(self, product: Product, order_qty, order_price):
+        self.product = product
+        self.order_qty = order_qty
+        self.order_price = order_price
+        super().__init__()
 
-        super().__init__(name, description, price, qty)
-        self.freq = freq
-        self.model = model
-        self.ram = ram
-        self.color = color
+    def __repr__(self):
+        return super().__repr__()
 
-
-class GreenGrass(Product):
-    """class GreenGrass is child of class Category"""
-
-    def __init__(self, name: str, description: str, price: float, qty: int,
-                 country: str, germ_period: int, color: str):
-
-        super().__init__(name, description, price, qty)
-        self.country = country
-        self.germ_period = germ_period
-        self.color = color
-
+    def __str__(self):
+        return f'В заказе: /{self.product}/, {self.order_qty} шт.'
 
 
 ######################
