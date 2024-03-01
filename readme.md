@@ -68,3 +68,15 @@ Dunder методы:
 - `__len__`
 - `__iter__` и `__next__`
 
+
+# homework 15.1
+
+- class `Smartphone`, `GreenGrass` - подклассы `Product`
+
+
+# homework 15.2
+
+- class `AbcProduct` - базовый абстрактный класс для продуктов
+- class `MixinRepr` - класс для логирования создания объектов
+- class `AbcCategoryOrder` - базовый абстрактный класс для категорий и заказов
+
