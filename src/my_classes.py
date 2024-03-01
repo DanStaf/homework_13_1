@@ -27,7 +27,6 @@ class AbcProduct(ABC):
     @abstractmethod
     def __init__(self):
         super().__init__()
-        pass
 
 
 class Product(AbcProduct, MixinRepr):
@@ -122,7 +121,49 @@ class Product(AbcProduct, MixinRepr):
         self.__price = None
 
 
-class Category(MixinRepr):
+class Smartphone(Product):
+    """class Smartphone is child of class Product"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 freq: float, model: str, ram: int, color: str):
+
+        self.freq = freq
+        self.model = model
+        self.ram = ram
+        self.color = color
+        super().__init__(name, description, price, qty)
+
+
+class GreenGrass(Product):
+    """class GreenGrass is child of class Category"""
+
+    def __init__(self, name: str, description: str, price: float, qty: int,
+                 country: str, germ_period: int, color: str):
+
+        self.country = country
+        self.germ_period = germ_period
+        self.color = color
+        super().__init__(name, description, price, qty)
+
+###############################
+
+
+class AbcCategoryOrder(ABC):
+
+    @abstractmethod
+    def __init__(self):
+        super().__init__()
+
+    @abstractmethod
+    def __repr__(self):
+        return super().__repr__()
+
+    @abstractmethod
+    def __str__(self):
+        return super().__str__()
+
+
+class Category(AbcCategoryOrder, MixinRepr):
 
     number_of_categories = 0
     unique_product_names = set()
@@ -204,31 +245,24 @@ class CategoryIter(MixinRepr):
             raise StopIteration
 
 
-class Smartphone(Product):
-    """class Smartphone is child of class Product"""
+class Order(AbcCategoryOrder, MixinRepr):
+    """
+    ordered Product
+    ordered qty
+    ordered total price
+    """
 
-    def __init__(self, name: str, description: str, price: float, qty: int,
-                 freq: float, model: str, ram: int, color: str):
+    def __init__(self, product: Product, order_qty, order_price):
+        self.product = product
+        self.order_qty = order_qty
+        self.order_price = order_price
+        super().__init__()
 
-        self.freq = freq
-        self.model = model
-        self.ram = ram
-        self.color = color
-        super().__init__(name, description, price, qty)
+    def __repr__(self):
+        return super().__repr__()
 
-
-class GreenGrass(Product):
-    """class GreenGrass is child of class Category"""
-
-    def __init__(self, name: str, description: str, price: float, qty: int,
-                 country: str, germ_period: int, color: str):
-
-        self.country = country
-        self.germ_period = germ_period
-        self.color = color
-        super().__init__(name, description, price, qty)
-
-
+    def __str__(self):
+        return f'В заказе: /{self.product}/, {self.order_qty} шт.'
 
 
 ######################

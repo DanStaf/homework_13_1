@@ -3,6 +3,7 @@ from src.my_classes import CategoryIter
 from src.my_classes import Product
 from src.my_classes import Smartphone
 from src.my_classes import GreenGrass
+from src.my_classes import Order
 
 import pytest
 import mock
@@ -209,5 +210,17 @@ def test_child_classes():
 
     assert added_product.qty == 3
     assert added_product.ram == 256
+
+
+def test_order():
+    bread_2 = Product('bread', 'fresh bread hand made today', 25, 2)
+    banana_10 = Product('banana', 'fruits', 100.99, 10)
+
+    order_1 = Order(banana_10, 2, 100.99*2)
+
+    assert order_1.order_qty == 2
+    assert repr(order_1) == "Order(Product('banana', 'fruits', 100.99, 10), 2, 201.98)"
+    assert str(order_1) == "В заказе: /banana, 100.99 руб. Остаток: 10 шт./, 2 шт."
+
 
 
