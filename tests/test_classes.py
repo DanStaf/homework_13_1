@@ -189,6 +189,10 @@ def test_child_classes():
     # test methods
 
     assert str(sf) == 'Samsung, 180000.0 руб. Остаток: 5 шт.'
+    assert repr(sf) == ("Smartphone('Samsung', "
+                        "'256GB, Серый цвет, 200MP камера', "
+                        "180000.0, 5, 3.36, "
+                        "'Galaxy C23 Ultra', 256, 'Серый')")
 
     assert gg + gg2 == 220 * 50 + 200 * 50
 

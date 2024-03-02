@@ -22,15 +22,9 @@ class MixinRepr:
         return f"{self.__class__.__name__}({attrs_text[:-2]})"
 
 
-class AbcProduct(ABC):
+class AbcProduct(ABC, MixinRepr):
 
     @abstractmethod
-    def __init__(self):
-        super().__init__()
-
-
-class Product(AbcProduct, MixinRepr):
-
     def __init__(self, name: str, description: str, price: float, qty: int):
         """
 
@@ -119,6 +113,12 @@ class Product(AbcProduct, MixinRepr):
     @price.deleter
     def price(self):
         self.__price = None
+
+
+class Product(AbcProduct):
+
+    def __init__(self, name: str, description: str, price: float, qty: int):
+        super().__init__(name, description, price, qty)
 
 
 class Smartphone(Product):
