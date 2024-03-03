@@ -22,17 +22,34 @@ class MixinRepr:
         return f"{self.__class__.__name__}({attrs_text[:-2]})"
 
 
-class AbcProduct(ABC, MixinRepr):
+class AbcProduct(ABC):
 
     @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def __repr__(self):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class Product(MixinRepr, AbcProduct):
+
     def __init__(self, name: str, description: str, price: float, qty: int):
         """
-
-        :param name: имя продукта
-        :param description: описание продукта
-        :param price: цена продукта
-        :param qty: количество продукта
-        """
+                :param name: имя продукта
+                :param description: описание продукта
+                :param price: цена продукта
+                :param qty: количество продукта
+                """
 
         self.name = name
         self.description = description
@@ -115,12 +132,6 @@ class AbcProduct(ABC, MixinRepr):
         self.__price = None
 
 
-class Product(AbcProduct):
-
-    def __init__(self, name: str, description: str, price: float, qty: int):
-        super().__init__(name, description, price, qty)
-
-
 class Smartphone(Product):
     """class Smartphone is child of class Product"""
 
@@ -152,18 +163,18 @@ class AbcCategoryOrder(ABC):
 
     @abstractmethod
     def __init__(self):
-        super().__init__()
+        pass
 
     @abstractmethod
     def __repr__(self):
-        return super().__repr__()
+        pass
 
     @abstractmethod
     def __str__(self):
-        return super().__str__()
+        pass
 
 
-class Category(AbcCategoryOrder, MixinRepr):
+class Category(MixinRepr, AbcCategoryOrder):
 
     number_of_categories = 0
     unique_product_names = set()
@@ -245,7 +256,7 @@ class CategoryIter(MixinRepr):
             raise StopIteration
 
 
-class Order(AbcCategoryOrder, MixinRepr):
+class Order(MixinRepr, AbcCategoryOrder):
     """
     ordered Product
     ordered qty
@@ -266,4 +277,3 @@ class Order(AbcCategoryOrder, MixinRepr):
 
 
 ######################
-
