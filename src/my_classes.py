@@ -211,6 +211,14 @@ class Category(MixinRepr, AbcCategoryOrder):
 
         self.__goods.append(product)
 
+    def avg_price(self):
+        try:
+            prices = [item.price for item in self.__goods]
+            return sum(prices)/len(prices)
+
+        except ZeroDivisionError:
+            return 0
+
     def __repr__(self):
         return super().__repr__()
         #return f'*Category:{self.name}*\n*Contains:{self.__goods}*\n'

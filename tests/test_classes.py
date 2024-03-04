@@ -136,6 +136,8 @@ def test_category():
 
     orange_0 = Product('orange', 'fruits', 100.99, 0)
 
+    category_0 = Category('zero_test', 'test', [])
+
     fruits.add_product_in_category(gg)
     assert fruits.list_of_goods == ['banana, 100.99 руб. Остаток: 10 шт.',
                                     'apple, 51.99 руб. Остаток: 15 шт.',
@@ -147,6 +149,9 @@ def test_category():
 
     with pytest.raises(ValueError):
         fruits.add_product_in_category(orange_0)
+
+    assert fruits.avg_price() == 101.2425
+    assert category_0.avg_price() == 0
 
     # test iter
 

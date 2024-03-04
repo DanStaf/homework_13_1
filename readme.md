@@ -83,5 +83,5 @@ Dunder методы:
 # homework 16.1
 
 - обработано `ValueError` для добавления 0 шт. `Product` в `Category`
-- метод `avg` в классе `Category` с обработкой исключений
+- метод `avg_price` в классе `Category` с обработкой исключений
 - класс `MyExceprion` отвечает за обработку исключений
