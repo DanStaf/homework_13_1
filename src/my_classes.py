@@ -159,6 +159,26 @@ class GreenGrass(Product):
 ###############################
 
 
+class MyException(Exception):
+    """Создать класс исключения, который отвечает за обработку событий,
+    когда в «Категорию» или в «Заказ» добавляется товар с нулевым количеством.
+
+    Исключение должно вызываться и выводить соответствующее сообщение.
+
+    При этом важно в случае успешного добавления товара вывести сообщение
+    о том, что товар добавлен.
+
+    Также при любом исходе вывести сообщение,
+    что обработка добавления товара завершена.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else 'Товар с нулевым количеством не может быть добавлен'
+
+    def __str__(self):
+        return self.message
+
+
 class AbcCategoryOrder(ABC):
 
     @abstractmethod
@@ -206,7 +226,22 @@ class Category(MixinRepr, AbcCategoryOrder):
         if not isinstance(product, Product):
             raise TypeError('Добавить в категорию можно только продукт или его наследников')
 
+        if product.qty == 0:
+            # для задания 1
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+
+            # для доп. задания (такая же конструкция работает в классе Order)
+            # raise MyException
+
         self.__goods.append(product)
+
+    def avg_price(self):
+        try:
+            prices = [item.price for item in self.__goods]
+            return sum(prices)/len(prices)
+
+        except ZeroDivisionError:
+            return 0
 
     def __repr__(self):
         return super().__repr__()
@@ -264,7 +299,7 @@ class Order(MixinRepr, AbcCategoryOrder):
     """
 
     def __init__(self, product: Product, order_qty, order_price):
-        self.product = product
+        self.add_product_in_order(product)
         self.order_qty = order_qty
         self.order_price = order_price
         super().__init__()
@@ -275,5 +310,10 @@ class Order(MixinRepr, AbcCategoryOrder):
     def __str__(self):
         return f'В заказе: /{self.product}/, {self.order_qty} шт.'
 
+    def add_product_in_order(self, product: Product):
+        if product.qty == 0:
+            raise MyException
+        else:
+            self.product = product
 
 ######################

@@ -4,6 +4,7 @@ from src.my_classes import Product
 from src.my_classes import Smartphone
 from src.my_classes import GreenGrass
 from src.my_classes import Order
+from src.my_classes import MyException
 
 import pytest
 import mock
@@ -134,6 +135,10 @@ def test_category():
                     30,
                     'Зелёный')
 
+    orange_0 = Product('orange', 'fruits', 100.99, 0)
+
+    category_0 = Category('zero_test', 'test', [])
+
     fruits.add_product_in_category(gg)
     assert fruits.list_of_goods == ['banana, 100.99 руб. Остаток: 10 шт.',
                                     'apple, 51.99 руб. Остаток: 15 шт.',
@@ -142,6 +147,12 @@ def test_category():
 
     with pytest.raises(TypeError):
         fruits.add_product_in_category(500)
+
+    with pytest.raises(ValueError):
+        fruits.add_product_in_category(orange_0)
+
+    assert fruits.avg_price() == 101.2425
+    assert category_0.avg_price() == 0
 
     # test iter
 
@@ -219,6 +230,7 @@ def test_child_classes():
 def test_order():
     bread_2 = Product('bread', 'fresh bread hand made today', 25, 2)
     banana_10 = Product('banana', 'fruits', 100.99, 10)
+    orange_0 = Product('orange', 'fruits', 100.99, 0)
 
     order_1 = Order(banana_10, 2, 100.99*2)
 
@@ -226,5 +238,23 @@ def test_order():
     assert repr(order_1) == "Order(Product('banana', 'fruits', 100.99, 10), 2, 201.98)"
     assert str(order_1) == "В заказе: /banana, 100.99 руб. Остаток: 10 шт./, 2 шт."
 
+    check_add_product_in_order(order_1, bread_2)
+    assert str(order_1) == "В заказе: /bread, 25 руб. Остаток: 2 шт./, 2 шт."
+
+    with pytest.raises(MyException, match='Товар с нулевым количеством не может быть добавлен'):
+        order_1.add_product_in_order(orange_0)
+
+    check_add_product_in_order(order_1, orange_0)
+    assert str(order_1) == "В заказе: /bread, 25 руб. Остаток: 2 шт./, 2 шт."
 
 
+def check_add_product_in_order(order, product):
+
+    try:
+        order.add_product_in_order(product)
+    except MyException as e:
+        print(e.message)
+    else:
+        print('Товар добавлен')
+    finally:
+        print('Обработка добавления товара завершена')
