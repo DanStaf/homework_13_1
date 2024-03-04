@@ -206,6 +206,9 @@ class Category(MixinRepr, AbcCategoryOrder):
         if not isinstance(product, Product):
             raise TypeError('Добавить в категорию можно только продукт или его наследников')
 
+        if product.qty == 0:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+
         self.__goods.append(product)
 
     def __repr__(self):
